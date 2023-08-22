@@ -35,16 +35,16 @@ Future<void> init() async {
 // Repository
 
   sl.registerLazySingleton<RepositeryPost>(() => RepositoryPostImp(
-      postsLocalDataSourceImp: sl(),
+      postLocalDataSourceImp: sl(),
       postsRemoteDataSourceImp: sl(),
       checkInternet: sl()));
 
 // Datasources
 
-  sl.registerLazySingleton<PostsRemoteDataSource>(
-      () => PostsRemoteDataSourceImp(client: sl()));
-  sl.registerLazySingleton<PostLocalDataSource>(
-      () => PostsLocalDataSourceImp(sharedPreferences: sl()));
+  sl.registerLazySingleton(
+      () => PostLocalDataSourceImp(sharedPreferences: sl()));
+
+  sl.registerLazySingleton(() => PostsRemoteDataSourceImp(client: sl()));
 
 //! Core
 

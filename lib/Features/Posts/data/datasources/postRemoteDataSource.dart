@@ -22,8 +22,8 @@ class PostsRemoteDataSourceImp implements PostsRemoteDataSource {
   @override
   Future<List<PostModel>> getAllPosts() async {
     final response =
-        await client.post(Uri.parse(AppLinks.posts), headers: headers);
-    print(response.body);
+        await client.get(Uri.parse(AppLinks.posts), headers: headers);
+
     if (response.statusCode == 200) {
       final List decodedJson = jsonDecode(response.body) as List;
       final List<PostModel> postsList = decodedJson

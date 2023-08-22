@@ -1,4 +1,3 @@
-// ignore: depend_on_referenced_packages
 import 'package:dartz/dartz.dart';
 import 'package:posts_app/Features/Posts/domain/repositories/reppsitery_Post.dart';
 import '../../../../core/class/error/failure.dart';

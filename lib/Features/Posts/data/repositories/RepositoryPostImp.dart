@@ -12,14 +12,14 @@ import '../datasources/postLocalDataSource.dart';
 typedef DeleteOrUpdateOrAddPost = Future<Unit> Function();
 
 class RepositoryPostImp implements RepositeryPost {
-  PostsLocalDataSourceImp postsLocalDataSourceImp;
-
   PostsRemoteDataSourceImp postsRemoteDataSourceImp;
+
+  PostLocalDataSourceImp postLocalDataSourceImp;
 
   NetworkInfo checkInternet;
 
   RepositoryPostImp({
-    required this.postsLocalDataSourceImp,
+    required this.postLocalDataSourceImp,
     required this.postsRemoteDataSourceImp,
     required this.checkInternet,
   });
@@ -29,15 +29,14 @@ class RepositoryPostImp implements RepositeryPost {
     if (await checkInternet.isConnected) {
       try {
         final postRemote = await postsRemoteDataSourceImp.getAllPosts();
-        print('repo: $postRemote');
-        postsLocalDataSourceImp.cachePosts(postRemote);
+        postLocalDataSourceImp.cachePosts(postRemote);
         return Right(postRemote);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
-        final postCached = await postsLocalDataSourceImp.getCachedPosts();
+        final postCached = await postLocalDataSourceImp.getCachedPosts();
 
         return Right(postCached);
       } on EmptyCacheException {

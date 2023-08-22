@@ -6,6 +6,6 @@ abstract class PostsBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetAllPosts extends PostsBlocEvent {}
+class GetAllPostsEvent extends PostsBlocEvent {}
 
 class RefreshPostEvent extends PostsBlocEvent {}
