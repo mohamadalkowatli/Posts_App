@@ -43,6 +43,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PostLocalDataSource>(
       () => PostsLocalDataSourceImp(sharedPreferences: sl()));
+
   sl.registerLazySingleton<PostsRemoteDataSource>(
       () => PostsRemoteDataSourceImp(client: sl()));
 
