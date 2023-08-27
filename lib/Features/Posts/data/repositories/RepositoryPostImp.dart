@@ -12,15 +12,13 @@ import '../datasources/postLocalDataSource.dart';
 typedef DeleteOrUpdateOrAddPost = Future<Unit> Function();
 
 class RepositoryPostImp implements RepositeryPost {
-  PostsRemoteDataSourceImp postsRemoteDataSourceImp;
-
-  PostLocalDataSourceImp postLocalDataSourceImp;
-
+  PostsRemoteDataSource postsRemoteDataSource;
+  PostLocalDataSource postLocalDataSource;
   NetworkInfo checkInternet;
 
   RepositoryPostImp({
-    required this.postLocalDataSourceImp,
-    required this.postsRemoteDataSourceImp,
+    required this.postsRemoteDataSource,
+    required this.postLocalDataSource,
     required this.checkInternet,
   });
 
@@ -28,15 +26,15 @@ class RepositoryPostImp implements RepositeryPost {
   Future<Either<Failure, List<Post>>> getAllPosts() async {
     if (await checkInternet.isConnected) {
       try {
-        final postRemote = await postsRemoteDataSourceImp.getAllPosts();
-        postLocalDataSourceImp.cachePosts(postRemote);
+        final postRemote = await postsRemoteDataSource.getAllPosts();
+        postLocalDataSource.cachePosts(postRemote);
         return Right(postRemote);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
-        final postCached = await postLocalDataSourceImp.getCachedPosts();
+        final postCached = await postLocalDataSource.getCachedPosts();
 
         return Right(postCached);
       } on EmptyCacheException {
@@ -50,14 +48,14 @@ class RepositoryPostImp implements RepositeryPost {
     PostModel postModel =
         PostModel(id: post.id, title: post.title, body: post.body);
     return await _request(() {
-      return postsRemoteDataSourceImp.addPost(postModel);
+      return postsRemoteDataSource.addPost(postModel);
     });
   }
 
   @override
   Future<Either<Failure, Unit>> deletePosts(int postId) async {
     return await _request(() {
-      return postsRemoteDataSourceImp.delete(postId);
+      return postsRemoteDataSource.delete(postId);
     });
   }
 
@@ -66,7 +64,7 @@ class RepositoryPostImp implements RepositeryPost {
     PostModel postModel =
         PostModel(id: post.id, title: post.title, body: post.body);
     return await _request(() {
-      return postsRemoteDataSourceImp.updatePost(postModel);
+      return postsRemoteDataSource.updatePost(postModel);
     });
   }
 

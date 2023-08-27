@@ -31,7 +31,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          appBarTheme: AppBarTheme(
+              color: Color.fromARGB(255, 1, 26, 136),
+              centerTitle: true,
+              titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25)),
           useMaterial3: true,
         ),
         home: const PostsPage(),
